@@ -20,7 +20,7 @@ module.exports = {
 
   read: async function(req, res, next) {
     try {
-      const users = await usersModel.read();
+      const users = await usersModel.read(req.user.department);
 
       res.status(200)
         .json(users);

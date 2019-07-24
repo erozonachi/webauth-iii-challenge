@@ -7,7 +7,12 @@ module.exports = {
       .then(([ id ]) => this.readById(id));
   },
 
-  read: function() {
+  read: function(department = null) {
+    if(department) {
+      return db('users')
+        .select('id', 'username', 'department')
+        .where({ department });
+    }
     return db('users')
       .select('id', 'username', 'department');
   },
