@@ -15,4 +15,15 @@ module.exports = {
       next(error);
     }
   },
+
+  read: async function(req, res, next) {
+    try {
+      const users = await usersModel.read();
+
+      res.status(200)
+        .json(users);
+    } catch(error) {
+      next(error);
+    }
+  },
 };
