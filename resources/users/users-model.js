@@ -9,6 +9,13 @@ module.exports = {
 
   read: function() {
     return db('users')
-    .select('id', 'first_name', 'last_name', 'username');
+      .select('id', 'username', 'department');
+  },
+
+  readById: function(id) {
+    return db('users')
+      .select('id', 'username', 'department')
+      .where({ id })
+      .first();
   },
 };
