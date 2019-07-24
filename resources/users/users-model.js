@@ -18,4 +18,10 @@ module.exports = {
       .where({ id })
       .first();
   },
+
+  readByUsername: function(username) {
+    return db('users')
+      .where({ username })
+      .first();
+  }
 };
