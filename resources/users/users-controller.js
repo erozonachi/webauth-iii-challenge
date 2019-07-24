@@ -1,6 +1,7 @@
 const usersModel = require('./users-model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const secret = require('../../config/secret').jwtSecret;
 
 module.exports = {
   create: async function(req, res, next) {
@@ -38,7 +39,7 @@ module.exports = {
           username: user.username,
           department: user.department
         };
-        const token = jwt.sign(payload, 'QWTERUDHASG-UJGFETDH-LMFG$&#@', { expiresIn: '1d' });
+        const token = jwt.sign(payload, secret, { expiresIn: '1d' });
 
         return res.status(200)
           .json({
