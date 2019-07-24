@@ -1,5 +1,6 @@
 const usersModel = require('./users-model');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
   create: async function(req, res, next) {
@@ -26,4 +27,32 @@ module.exports = {
       next(error);
     }
   },
+
+  authenticate: async function(req, res, next) {
+    try {
+      const { username, password } = req.body;
+      const user = await usersModel.readByUsername(username);
+      if(user && bcrypt.compareSync(password, user.password)) {
+        const payload = {
+          sub: user.id,
+          username: user.username,
+          department: user.department
+        };
+        const token = jwt.sign(payload, 'QWTERUDHASG-UJGFETDH-LMFG$&#@', { expiresIn: '1d' });
+
+        return res.status(200)
+          .json({
+            message: `Welcome ${user.username}`,
+            token
+          });
+      }
+
+      res.status(400)
+        .json({
+          message: 'invalid credentials'
+        });
+    } catch(error) {
+      next(error);
+    }
+  }
 };
